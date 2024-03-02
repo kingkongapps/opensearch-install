@@ -27,3 +27,11 @@
     networks:
       - opensearch-net
 ```
+
+#### volume setup
+ - Volume 디렉토리 생성 후 퍼미션을 반드시 777로 줘야 한다.
+```
+drwxrwxrwx 3 ubuntu ubuntu 4096 Mar  2 01:16 opensearch-data1/
+drwxrwxrwx 3 ubuntu ubuntu 4096 Mar  2 01:16 opensearch-data2/
+
+```
