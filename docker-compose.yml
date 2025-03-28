@@ -20,10 +20,12 @@ services:
         soft: 65536 # Maximum number of open files for the opensearch user - set to at least 65536
         hard: 65536
     volumes:
-      - ./opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+      - /data/docker/opensearch-data1:/usr/share/opensearch/data # Creates volume called opensearch-data1 and mounts it to the container
+#     - ./plugins:/usr/share/opensearch/plugins
+#     - ./config/opensearch.yml:/usr/share/opensearch/config/opensearch.yml
     ports:
-      - 19200:9200 # REST API
-      - 19600:9600 # Performance Analyzer
+      - 39200:9200 # REST API
+      - 39600:9600 # Performance Analyzer
     networks:
       - opensearch-net # All of the containers will join the same Docker bridge network
   opensearch-node2:
@@ -45,7 +47,9 @@ services:
         soft: 65536
         hard: 65536
     volumes:
-      - ./opensearch-data2:/usr/share/opensearch/data
+      - /data/docker/opensearch-data2:/usr/share/opensearch/data
+#     - ./plugins:/usr/share/opensearch/plugins
+#     - ./config/opensearch.yml:/usr/share/opensearch/config/opensearch.yml
     networks:
       - opensearch-net
 
@@ -53,11 +57,14 @@ services:
     image: opensearchproject/opensearch-dashboards:latest # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
     container_name: opensearch-dashboards
     ports:
-      - 15601:5601 # Map host port 5601 to container port 5601
+      - 35601:5601 # Map host port 5601 to container port 5601
     expose:
-      - "15601" # Expose port 5601 for web access to OpenSearch Dashboards
+      - "35601" # Expose port 5601 for web access to OpenSearch Dashboards
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch-node1:9200","https://opensearch-node2:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
+      SERVER_HOST: 0.0.0.0
+      SERVER_PUBLICBASEURL: https://www.doridori.pe.kr:13000/kibana
+      SERVER_BASEPATH: /kibana
     networks:
       - opensearch-net
 
@@ -65,9 +72,11 @@ services:
     container_name: logstash
     image: opensearchproject/logstash-oss-with-opensearch-output-plugin:latest
     ports:
-      - 15044:5044
+      - 35044:5044
     expose:
-      - 15044
+      - 35044
+    volumes:
+      - ./pipeline:/usr/share/logstash/pipeline
     depends_on:
       - opensearch-node1
       - opensearch-node2

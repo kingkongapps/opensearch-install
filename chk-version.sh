@@ -1,1 +1,1 @@
-curl -v --insecure -u "admin:Rkddlsah1" https://localhost:19200
+curl -v --insecure -u "admin:Rkddlsah1" https://localhost:39200

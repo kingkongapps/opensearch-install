@@ -35,3 +35,5 @@ drwxrwxrwx 3 ubuntu ubuntu 4096 Mar  2 01:16 opensearch-data1/
 drwxrwxrwx 3 ubuntu ubuntu 4096 Mar  2 01:16 opensearch-data2/
 
 ```
+
+#### plug-in add : nori hangul 
